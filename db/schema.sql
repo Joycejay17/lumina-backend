@@ -340,6 +340,9 @@ CREATE TABLE IF NOT EXISTS assets (
     created_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at          TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     network             TEXT NOT NULL DEFAULT 'mainnet',
+    issuer_home_domain  TEXT,
+    issuer_metadata     JSONB,
+    is_lookalike        BOOLEAN DEFAULT FALSE,
     PRIMARY KEY (asset_code, asset_issuer, network),
     CONSTRAINT assets_asset_code_check          CHECK (asset_code <> ''),
     CONSTRAINT assets_asset_issuer_check        CHECK (asset_issuer <> ''),
@@ -356,6 +359,12 @@ CREATE INDEX IF NOT EXISTS idx_assets_activity
 
 CREATE INDEX IF NOT EXISTS idx_assets_network
     ON assets (network);
+
+CREATE INDEX IF NOT EXISTS idx_assets_issuer_home_domain
+    ON assets (issuer_home_domain, network);
+
+CREATE INDEX IF NOT EXISTS idx_assets_lookalike
+    ON assets (is_lookalike, network) WHERE is_lookalike = TRUE;
 
 -- ─── Asset Volume Buckets (Asset Analytics) ───────────────────────────────────
 
