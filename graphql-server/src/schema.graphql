@@ -1232,6 +1232,20 @@ type Asset {
   Recent volume (last 7 days) in the asset's base units.
   """
   recentVolume: String
+  """
+  The issuer's home domain, if published in their account settings.
+  """
+  issuerHomeDomain: String
+  """
+  Self-declared asset metadata from the issuer's stellar.toml file.
+  This is not verified - it's what the issuer claims about their asset.
+  """
+  issuerMetadata: String
+  """
+  True if this asset's code matches a well-known asset but has a different issuer.
+  Such assets may be attempting to impersonate the real asset.
+  """
+  isLookalike: Boolean
 }
 
 """
